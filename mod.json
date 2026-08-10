@@ -1,0 +1,11 @@
+{
+	"name": "canvasforge",
+	"displayName": "CanvasForge",
+	"author": "FallenDragon",
+	"description": "Turn images into Mindustry canvas schematics.\n[stat]Requires [#00aaff]deltanedas/ui-lib[].",
+	"version": "1.0.0",
+	"dependencies": ["ui_lib"],
+	"minGameVersion": 136,
+	"hidden": false,
+	"repo": "MikhaelCat/CanvasForge"
+}
