@@ -6,18 +6,31 @@ const ui = require("ui_lib/library");
 const core = require("canvasforge/core");
 
 var ptl;
+var schematicButtonAdded = false;
+
+function showDialog() {
+	if (ptl != null) ptl.show();
+}
 
 ui.addMenuButton("CanvasForge", "paste", () => {
-	ptl.show();
+	showDialog();
 });
 
 ui.onLoad(() => {
-	// Add button in Schematics dialog
-	Vars.ui.schematics.buttons.button("CanvasForge", Icon.paste, () => {
-		ptl.show();
-	});
-
 	ptl = new BaseDialog("CanvasForge");
+	// UI mods may replace/rebuild the schematics dialog. Do not let a missing
+	// table or a duplicate button abort the whole mod-loading task.
+	Core.app.post(() => {
+		if (schematicButtonAdded) return;
+		try {
+			if (Vars.ui != null && Vars.ui.schematics != null && Vars.ui.schematics.buttons != null) {
+				Vars.ui.schematics.buttons.button("CanvasForge", Icon.paste, showDialog);
+				schematicButtonAdded = true;
+			}
+		} catch (e) {
+			Log.warn("CanvasForge: schematic UI button unavailable: " + e);
+		}
+	});
 
 	ptl.cont.add("[coral]Step 1:[] Select a PNG/JPG image.");
 	ptl.cont.row();
